@@ -21,39 +21,45 @@ otherwise, I cut it in half and put the other half back in the bottle. I'm
 assuming the half and whole tablets are evenly distributed through the bottle"""
 
 import random
-tabs = 500.0
-doses = 0
-halfTabs = 0
-wholeTabs = 500
 
+open('Single-pill-simulator.txt', 'w').close()
+open('Pill-simulator-combined-results.txt', 'w').close()
 
-while tabs > 0:
-    #print("tabs: ", tabs)
-    doses += 1
-    tabs -= 0.5
+def pillSimulator(numCycles):
 
-    if halfTabs == 0:
-        print("wholeTabs, zero half tabs: ", wholeTabs)
-        wholeTabs -= 1
-        halfTabs += 1
+    for x in range(numCycles):
+        tabs = 500.0
+        doses = 0
+        halfTabs = 0
+        wholeTabs = 500
 
-    elif wholeTabs == 0:
-        halfTabs -= 1
+        while tabs > 0:
+            doses += 1
+            tabs -= 0.5
 
-    else:
-        currentOdds = halfTabs/(halfTabs + wholeTabs) * 100
-        #print(currentOdds)
-        currentRandomNum = random.randint(0, 100)
+            if halfTabs == 0:
+                wholeTabs -= 1
+                halfTabs += 1
 
-        if currentOdds >= currentRandomNum:
-            halfTabs -= 1
+            elif wholeTabs == 0:
+                halfTabs -= 1
 
-        else:
-            wholeTabs -= 1
-            halfTabs += 1
+            else:
+                currentOdds = halfTabs/(halfTabs + wholeTabs) * 100
+                currentRandomNum = random.randint(0, 100)
 
-    print("half tabs: ", halfTabs)
-    print("whole tabs: ", wholeTabs)
+                if currentOdds >= currentRandomNum:
+                    halfTabs -= 1
 
+                else:
+                    wholeTabs -= 1
+                    halfTabs += 1
 
-print("all done!")
+            f = open('Single-pill-simulator.txt', "a")
+            f.write("half tabs: " + str(halfTabs) + "\n")
+            f.write("whole tabs: " + str(wholeTabs) + "\n")
+            f.close()
+
+        print("all done!")
+
+pillSimulator(1)
